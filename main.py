@@ -23,8 +23,8 @@ env.run()
 
 selected_choice = []
 question = ''
+numberOfAnswers=0
 
-# Function to display the current question and choices
 def show_question():
     """
     	for fact in env.facts():
@@ -36,14 +36,21 @@ def show_question():
 	else
     """
     global question
-    selected_choice = []
-    questionShow = ""
+    global numberOfAnswers
+    question = ''
+    selected_choice.clear()
+    questionShow = ''
+
     for fact in env.facts():
         if fact.template.name == 'question':
-            for elem in fact:
-                question += elem.capitalize()
-                questionShow += elem + ' '
-    qs_label.config(text=questionShow)
+            for i in range(len(fact)):
+                if fact[i]==fact[-1]:
+                    numberOfAnswers=fact[i]
+                else:
+                    question += fact[i].capitalize()
+                    questionShow += fact[i] + ' '
+    #                                                                                           podpis o ilości odpowiedzi mniejszy i pod ql
+    qs_label.config(text=questionShow+' (NUMBER OF POSSIBLE ANSWERS: '+str(numberOfAnswers)+')')
 
     choices=[]
     for fact in env.facts():
@@ -51,17 +58,28 @@ def show_question():
             for elem in fact:
                 choices.append(elem)
 
-    for i in range(6):
-        if i<len(choices):
+    i=0
+    j=0
+    while i < len(choice_btns):
+        if j < len(choices):
+            choice_btns_number[i]=0
+            choice_btns[i].config(style='Standard.TButton')
             choice_btns[i].pack()
-            choice_btns[i].config(text=choices[i], state="normal")
+            if choices[j][-1] == ":":
+                choice_btns[i].config(text=choices[j] + ' ' + choices[j + 1], state="normal")
+                j+=1
+            else:
+                choice_btns[i].config(text=choices[j], state="normal")
         else:
             choice_btns[i].pack_forget()
+            #choice_btns[i].config(style='Invis.TButton')
+        i+=1
+        j+=1
 
     next_btn.config(state="disabled")
 
 
-# sprawdzać czy wiele odpowiedzi / czy liść, odznaczanie, pojawianie sie na koncu
+# sprawdzać czy wiele odpowiedzi / czy liść, pojawianie sie na koncu
 def check_answer(choice):
     if choice_btns_number[choice]%2==0:
         choice_btns[choice].config(style='Clicked.TButton')
@@ -70,7 +88,12 @@ def check_answer(choice):
         choice_btns[choice].config(style='Standard.TButton')
         selected_choice.remove(choice_btns[choice].cget("text"))
     choice_btns_number[choice]+=1
-    if len(selected_choice)>0:
+    numberOfSelectedButtons = 0
+    for button in choice_btns_number:
+        numberOfSelectedButtons += button % 2
+
+    print(numberOfSelectedButtons)
+    if numberOfSelectedButtons>0 and numberOfSelectedButtons<=numberOfAnswers:
         next_btn.config(state="normal")
     else:
         next_btn.config(state="disabled")
@@ -83,8 +106,14 @@ def next_question():
         assertt+=elem+' '
     assertt+=')'
     env.assert_string(assertt)
-    env.assert_string('(token ask)')
 
+    assertt = '(previousQuestion '+question+')'
+    env.assert_string(assertt)
+
+    env.assert_string('(token ask)')
+    print("Facts:\n")
+    for fact in env.facts():
+        print(fact)
     env.run()
     print("Facts:\n")
     for fact in env.facts():
@@ -123,6 +152,12 @@ style.configure('Clicked.TButton',
                 background='green',
                 font=('Arial', 10, 'italic'))
 
+style.configure('Invis.TButton',
+                background=[("disabled", root.cget('bg'))],
+                foreground=[("disabled", root.cget('bg'))],
+                border=0
+                )
+
 # Create the question label
 qs_label = ttk.Label(root, anchor="center", wraplength=500, padding=10)
 qs_label.pack(pady=10)
@@ -130,34 +165,15 @@ qs_label.pack(pady=10)
 #                                                                               Create the choice buttons
 choice_btns = []
 choice_btns_number = []
-for i in range(6):
+for i in range(7):
     choice_btns_number.append(0)
     button = ttk.Button(root, command=lambda i=i: check_answer(i), style='Standard.TButton')
-    button.pack(pady=5)
+    button.pack(pady=10)
     choice_btns.append(button)
-
-#                                                                           Create the feedback label
-feedback_label = ttk.Label(root, anchor="center", padding=10)
-feedback_label.pack(pady=10)
-
-#                                                                       Initialize the score
-score = 0
-
-#                                                                                   Create the score label
-score_label = ttk.Label(
-    root,
-    text="Score: 0/{}".format(len(quiz_data)),
-    anchor="center",
-    padding=10
-)
-score_label.pack(pady=10)
 
 # Create the next button
 next_btn = ttk.Button(root, text="Next", command=next_question, state="disabled")
-next_btn.pack(pady=10)
-
-#                                                                           Initialize the current question index
-current_question = 0
+next_btn.pack(pady=20, side='bottom')
 
 # Show the first question
 show_question()
