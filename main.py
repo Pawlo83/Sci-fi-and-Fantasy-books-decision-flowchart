@@ -6,6 +6,11 @@ import clips
 import logging
 import os
 
+# Weryfikacja czy jest dalsze poszukiwanie w momencie gdy jest już książka (sure do modern or classic), ilość odpowiedzi
+#
+#
+#
+
 logging.basicConfig(level=logging.DEBUG, force=True, format='%(message)s')
 env = clips.Environment()
 router = clips.LoggingRouter()
@@ -61,8 +66,8 @@ def show_question():
     i=0
     j=0
     while i < len(choice_btns):
+        choice_btns_number[i] = 0
         if j < len(choices):
-            choice_btns_number[i]=0
             choice_btns[i].config(style='Standard.TButton')
             choice_btns[i].pack()
             if choices[j][-1] == ":":
