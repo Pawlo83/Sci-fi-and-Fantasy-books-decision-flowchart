@@ -197,7 +197,7 @@ for i in range(7):
 
 # Create the next button
 next_btn = ttk.Button(root, text="Next", command=next_question, state="disabled", style='Next.TButton')
-next_btn.place(relx = 1, rely=1, x =-30, y = -65, anchor = 'ne')
+next_btn.place(relx = 1, rely=1, x =-30, y = -30, anchor = 'se')
 
 # Show the first question
 show_question()
