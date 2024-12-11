@@ -237,7 +237,7 @@
 ;---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule areYouGoingTo
-    ?d <-(previousQuestion WhereShouldIstart?)
+    ?d <-(previousQuestion WhereShouldIStart?)
     (WhereShouldIStart? Fantasy: $?dop)
     ?y <- (question)
     ?b <- (answers)
