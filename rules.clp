@@ -242,27 +242,27 @@
     ?y <- (question)
     ?b <- (answers)
     =>
-    (assert (question Are going to be upset when you don't find Harry Potter? 1) (answers "Yes: Give me more precocious lads at schools of magic, please." "No: I know where to find him if I need him"))
+    (assert (question Are you going to be upset when you don't find Harry Potter? 1) (answers "Yes: Give me more precocious lads at schools of magic, please." "No: I know where to find him if I need him"))
     (retract ?y)
     (retract ?b)
     (retract ?d)
 )
 
 (defrule areYouNewTo
-    ?d <-(previousQuestion AreYouGoingTo?)
-    (AreYouGoingTo? No: $?dop)
+    ?d <-(previousQuestion AreYouGoingToBeUpsetWhenYouDon'tFindHarryPotter?)
+    (AreYouGoingToBeUpsetWhenYouDon'tFindHarryPotter? No: $?dop)
     ?y <- (question)
     ?b <- (answers)
     =>
-    (assert (question Are you going to the fantasy genre? 1) (answers "Yes: I am as yet unfamiliar with your tropes. Do your worst." "No: I'm what you call, experienced" "Maybe: Does the wizard of Oz count?"))
+    (assert (question Are you new to the fantasy genre? 1) (answers "Yes: I am as yet unfamiliar with your tropes. Do your worst." "No: I'm what you call, experienced" "Maybe: Does the wizard of Oz count?"))
     (retract ?y)
     (retract ?b)
     (retract ?d)
 )
 
 (defrule likeTheArthurianLegend
-    ?d <-(previousQuestion AreYouNewTo?)
-    (AreYouNewTo? No: $?dop)
+    ?d <-(previousQuestion AreYouNewToTheFantasyGenre?)
+    (AreYouNewToTheFantasyGenre? No: $?dop)
     ?y <- (question)
     ?b <- (answers)
     =>
@@ -297,8 +297,8 @@
 )
 
 (defrule godsOrPeople
-    ?d <-(previousQuestion LookingForModern?)
-    (LookingForModern? Yes: $?dop)
+    ?d <-(previousQuestion LookingForModern-daySettings?)
+    (LookingForModern-daySettings? Yes: $?dop)
     ?y <- (question)
     ?b <- (answers)
     =>
@@ -309,8 +309,8 @@
 )
 
 (defrule fanOfWesterns
-    ?d <-(previousQuestion LookingForModern?)
-    (LookingForModern? No: $?dop)
+    ?d <-(previousQuestion LookingForModern-daySettings?)
+    (LookingForModern-daySettings? No: $?dop)
     ?y <- (question)
     ?b <- (answers)
     =>
@@ -333,8 +333,8 @@
 )
 
 (defrule whatsYourIdealPet
-    ?d <-(previousQuestion AnimalsMore?)
-    (AnimalsMore? Yes: $?dop)
+    ?d <-(previousQuestion AnimalsMoreYourThing?)
+    (AnimalsMoreYourThing? Yes: $?dop)
     ?y <- (question)
     ?b <- (answers)
     =>
@@ -345,8 +345,8 @@
 )
 
 (defrule howAboutSomeAltermate
-    ?d <-(previousQuestion AnimalsMore?)
-    (AnimalsMore? No: $?dop)
+    ?d <-(previousQuestion AnimalsMoreYourThing?)
+    (AnimalsMoreYourThing? No: $?dop)
     ?y <- (question)
     ?b <- (answers)
     =>
@@ -357,8 +357,8 @@
 )
 
 (defrule romanceOrWarring
-    ?d <-(previousQuestion HowAboutSomeAltermate?)
-    (HowAboutSomeAltermate? Yes: $?dop)
+    ?d <-(previousQuestion HowAboutSomeAltermateHistory?)
+    (HowAboutSomeAltermateHistory? Yes: $?dop)
     ?y <- (question)
     ?b <- (answers)
     =>
@@ -369,8 +369,8 @@
 )
 
 (defrule readyToDive
-    ?d <-(previousQuestion HowAboutSomeAltermate?)
-    (HowAboutSomeAltermate? No: $?dop)
+    ?d <-(previousQuestion HowAboutSomeAltermateHistory?)
+    (HowAboutSomeAltermateHistory? No: $?dop)
     ?y <- (question)
     ?b <- (answers)
     =>
@@ -381,8 +381,8 @@
 )
 
 (defrule whatsYourPleasure
-    ?d <-(previousQuestion ReadyToDive?)
-    (ReadyToDive? Maybe: $?dop)
+    ?d <-(previousQuestion ReadyToDiveIntoASeries?)
+    (ReadyToDiveIntoASeries? Maybe: $?dop)
     ?y <- (question)
     ?b <- (answers)
     =>
@@ -393,8 +393,8 @@
 )
 
 (defrule withPirates
-    ?d <-(previousQuestion ReadyToDive?)
-    (ReadyToDive? No: $?dop)
+    ?d <-(previousQuestion ReadyToDiveIntoASeries?)
+    (ReadyToDiveIntoASeries? No: $?dop)
     ?y <- (question)
     ?b <- (answers)
     =>
@@ -405,8 +405,8 @@
 )
 
 (defrule doesTheSeriesHave
-    ?d <-(previousQuestion ReadyToDive?)
-    (ReadyToDive? Yes: $?dop)
+    ?d <-(previousQuestion ReadyToDiveIntoASeries?)
+    (ReadyToDiveIntoASeries? Yes: $?dop)
     ?y <- (question)
     ?b <- (answers)
     =>
@@ -417,8 +417,8 @@
 )
 
 (defrule takeTheHigh
-    ?d <-(previousQuestion DoesTheSeriesHave?)
-    (DoesTheSeriesHave? No: $?dop)
+    ?d <-(previousQuestion DoesTheSeriesHaveToBeFinished?)
+    (DoesTheSeriesHaveToBeFinished? No: $?dop)
     ?y <- (question)
     ?b <- (answers)
     =>
@@ -429,8 +429,8 @@
 )
 
 (defrule doTheWords
-    ?d <-(previousQuestion DoesTheSeriesHave?)
-    (DoesTheSeriesHave? Yes: $?dop)
+    ?d <-(previousQuestion DoesTheSeriesHaveToBeFinished?)
+    (DoesTheSeriesHaveToBeFinished? Yes: $?dop)
     ?y <- (question)
     ?b <- (answers)
     =>
@@ -441,8 +441,8 @@
 )
 
 (defrule roleplayer
-    ?d <-(previousQuestion DoTheWords?)
-    (DoTheWords? Yes: $?dop)
+    ?d <-(previousQuestion DoTheWordsSwordAndSorceryHaveAPositiveConnotationForYou?)
+    (DoTheWordsSwordAndSorceryHaveAPositiveConnotationForYou? Yes: $?dop)
     ?y <- (question)
     ?b <- (answers)
     =>
@@ -465,8 +465,8 @@
 )
 
 (defrule lookingForAnOld
-    ?d <-(previousQuestion DoTheWords?)
-    (DoTheWords? No: $?dop)
+    ?d <-(previousQuestion DoTheWordsSwordAndSorceryHaveAPositiveConnotationForYou?)
+    (DoTheWordsSwordAndSorceryHaveAPositiveConnotationForYou? No: $?dop)
     ?y <- (question)
     ?b <- (answers)
     =>
@@ -477,8 +477,8 @@
 )
 
 (defrule whatShallWeRead
-    ?d <-(previousQuestion LookingForAnOld?)
-    (LookingForAnOld? Yes: $?dop)
+    ?d <-(previousQuestion LookingForAnOld-fashionedTrilogy?)
+    (LookingForAnOld-fashionedTrilogy? Yes: $?dop)
     ?y <- (question)
     ?b <- (answers)
     =>
@@ -489,8 +489,8 @@
 )
 
 (defrule soFiveOrSix
-    ?d <-(previousQuestion LookingForAnOld?)
-    (LookingForAnOld? No: $?dop)
+    ?d <-(previousQuestion LookingForAnOld-fashionedTrilogy?)
+    (LookingForAnOld-fashionedTrilogy? No: $?dop)
     ?y <- (question)
     ?b <- (answers)
     =>
@@ -501,8 +501,8 @@
 )
 
 (defrule enjoyStories
-    ?d <-(previousQuestion SoFiveOrSix?)
-    (SoFiveOrSix? Yes: $?dop)
+    ?d <-(previousQuestion So,FiveOrSixBooksEnoughForYou?)
+    (So,FiveOrSixBooksEnoughForYou? Yes: $?dop)
     ?y <- (question)
     ?b <- (answers)
     =>
@@ -513,8 +513,8 @@
 )
 
 (defrule enjoyQuests
-    ?d <-(previousQuestion SoFiveOrSix?)
-    (SoFiveOrSix? No: $?dop)
+    ?d <-(previousQuestion So,FiveOrSixBooksEnoughForYou?)
+    (So,FiveOrSixBooksEnoughForYou? No: $?dop)
     ?y <- (question)
     ?b <- (answers)
     =>
@@ -525,8 +525,8 @@
 )
 
 (defrule chooseWisely
-    ?d <-(previousQuestion EnjoyQuests?)
-    (EnjoyQuests? No: $?dop)
+    ?d <-(previousQuestion EnjoyQuestsToPreventGreatEvilFromConqueringTheWorld?)
+    (EnjoyQuestsToPreventGreatEvilFromConqueringTheWorld? No: $?dop)
     ?y <- (question)
     ?b <- (answers)
     =>
@@ -537,8 +537,8 @@
 )
 
 (defrule whoWillSaveUs
-    ?d <-(previousQuestion EnjoyQuests?)
-    (EnjoyQuests? Yes: $?dop)
+    ?d <-(previousQuestion EnjoyQuestsToPreventGreatEvilFromConqueringTheWorld?)
+    (EnjoyQuestsToPreventGreatEvilFromConqueringTheWorld? Yes: $?dop)
     ?y <- (question)
     ?b <- (answers)
     =>
