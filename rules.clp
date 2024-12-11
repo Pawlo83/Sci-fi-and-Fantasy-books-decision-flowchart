@@ -254,7 +254,7 @@
     ?y <- (question)
     ?b <- (answers)
     =>
-    (assert (question Are you new to the fantasy genre? 1) (answers "Yes: I am as yet unfamiliar with your tropes. Do your worst." "No: I'm what you call, experienced" "Maybe: Does the wizard of Oz count?"))
+    (assert (question Are you new to the fantasy genre? 1) (answers "Yes: I am as yet unfamiliar with your tropes. Do your worst." "Maybe: Does the wizard of Oz count?" "No: I'm what you call, experienced"))
     (retract ?y)
     (retract ?b)
     (retract ?d)
@@ -266,7 +266,7 @@
     ?y <- (question)
     ?b <- (answers)
     =>
-    (assert (question Like the Arthurian Legend? 1) (answers "Yes: I own The Sword and the Stone on DVD and VHS." "No:"))
+    (assert (question Like the Arthurian Legend? 1) (answers "Yes: I own The Sword and the Stone on DVD and VHS." "No"))
     (retract ?y)
     (retract ?b)
     (retract ?d)
@@ -286,11 +286,11 @@
 
 (defrule lookingForModern
     ?d <-(previousQuestion LikeTheArthurianLegend?)
-    (LikeTheArthurianLegend? No: $?dop)
+    (LikeTheArthurianLegend? No)
     ?y <- (question)
     ?b <- (answers)
     =>
-    (assert (question Looking for modern-day settings? 1) (answers "Yes: I'm a city-person" "No: Let's find another world, this one's depressing" "Maybe: I'm partial to small towns"))
+    (assert (question Looking for modern-day settings? 1) (answers "Yes: I'm a city-person" "Maybe: I'm partial to small towns" "No: Let's find another world, this one's depressing"))
     (retract ?y)
     (retract ?b)
     (retract ?d)
@@ -374,7 +374,7 @@
     ?y <- (question)
     ?b <- (answers)
     =>
-    (assert (question Ready to dive into a series? 1) (answers "Yes: The other two options ended with some strange choices" "No: Let's keep this casual" "Maybe: How about an episodic series?"))
+    (assert (question Ready to dive into a series? 1) (answers "Yes: The other two options ended with some strange choices" "Maybe: How about an episodic series?" "No: Let's keep this casual"))
     (retract ?y)
     (retract ?b)
     (retract ?d)
@@ -410,7 +410,7 @@
     ?y <- (question)
     ?b <- (answers)
     =>
-    (assert (question Does the series have to be finished? 1) (answers "Yes:" "No: I like to be held in suspense. Preferably for years at a time"))
+    (assert (question Does the series have to be finished? 1) (answers "Yes" "No: I like to be held in suspense. Preferably for years at a time"))
     (retract ?y)
     (retract ?b)
     (retract ?d)
@@ -430,11 +430,11 @@
 
 (defrule doTheWords
     ?d <-(previousQuestion DoesTheSeriesHaveToBeFinished?)
-    (DoesTheSeriesHaveToBeFinished? Yes: $?dop)
+    (DoesTheSeriesHaveToBeFinished? Yes)
     ?y <- (question)
     ?b <- (answers)
     =>
-    (assert (question Do the words Sword and Sorcery have a positive connotation for you? 1) (answers "Yes: Wizards and barbarians? What's not to like" "No:"))
+    (assert (question Do the words Sword and Sorcery have a positive connotation for you? 1) (answers "Yes: Wizards and barbarians? What's not to like" "No"))
     (retract ?y)
     (retract ?b)
     (retract ?d)
@@ -446,7 +446,7 @@
     ?y <- (question)
     ?b <- (answers)
     =>
-    (assert (question Roleplayer? 1) (answers "Yes:" "No:"))
+    (assert (question Roleplayer? 1) (answers "Yes" "No"))
     (retract ?y)
     (retract ?b)
     (retract ?d)
@@ -454,7 +454,7 @@
 
 (defrule moreWizard
     ?d <-(previousQuestion Roleplayer?)
-    (Roleplayer? No: $?dop)
+    (Roleplayer? No)
     ?y <- (question)
     ?b <- (answers)
     =>
@@ -470,7 +470,7 @@
     ?y <- (question)
     ?b <- (answers)
     =>
-    (assert (question Looking for an old-fashioned Trilogy? 1) (answers "Yes: Three is my lucky number" "No: In for a penny, in for a pound I always say" "Maybe: How about a trilogy of trilogies?"))
+    (assert (question Looking for an old-fashioned Trilogy? 1) (answers "Yes: Three is my lucky number" "Maybe: How about a trilogy of trilogies?" "No: In for a penny, in for a pound I always say"))
     (retract ?y)
     (retract ?b)
     (retract ?d)
@@ -506,7 +506,7 @@
     ?y <- (question)
     ?b <- (answers)
     =>
-    (assert (question Enjoy stories about orphaned farm boys? 1) (answers "No:"))
+    (assert (question Enjoy stories about orphaned farm boys? 1) (answers "No"))
     (retract ?y)
     (retract ?b)
     (retract ?d)
@@ -514,7 +514,7 @@
 
 (defrule enjoyQuests
     ?d <-(previousQuestion So,FiveOrSixBooksEnoughForYou?)
-    (So,FiveOrSixBooksEnoughForYou? No: $?dop)
+    (So,FiveOrSixBooksEnoughForYou? No: $?odp)
     ?y <- (question)
     ?b <- (answers)
     =>
@@ -526,7 +526,7 @@
 
 (defrule chooseWisely
     ?d <-(previousQuestion EnjoyQuestsToPreventGreatEvilFromConqueringTheWorld?)
-    (EnjoyQuestsToPreventGreatEvilFromConqueringTheWorld? No: $?dop)
+    (EnjoyQuestsToPreventGreatEvilFromConqueringTheWorld? No: $?odp)
     ?y <- (question)
     ?b <- (answers)
     =>
