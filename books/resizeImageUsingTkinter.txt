@@ -16,7 +16,7 @@ canvas.pack()
 img= (Image.open("download.png"))
 
 #Resize the Image using resize method
-resized_image= img.resize((300,205), Image.ANTIALIAS)
+resized_image= img.resize((300,205))
 new_image= ImageTk.PhotoImage(resized_image)
 
 #Add image to the Canvas Items
