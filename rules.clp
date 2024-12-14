@@ -22,6 +22,19 @@
     (assert (question) (answers))
 )
 
+(defrule recommendationAuthorPath
+    ?rec <- (recommendation ?r)
+    ?b <- (book (title ?r) (author ?a) (image-path ?p))
+    =>
+    (assert (recommendation ?r ?a ?p))
+    (retract ?rec)
+)
+
+
+
+;---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 
 (defrule cyberpunk
     ?d <-(previousQuestion WhereShouldIStart?)
@@ -44,6 +57,41 @@
     (assert (question Gritty Noir, Neo-Victorian or Samurai? 3) (answers "Noir" "Funny hats please" "Samurai"))
     (retract ?y)
     (retract ?b)
+    (retract ?d)
+)
+
+(defrule neuromancer
+    (previousQuestion GrittyNoir,Neo-victorianOrSamurai?)
+    ?a <- (GrittyNoir,Neo-victorianOrSamurai? $?p Noir $?k)
+    =>
+    (assert (recommendation "Neuromancer"))
+    (retract ?a)
+    (assert (GrittyNoir,Neo-victorianOrSamurai? $?p $?k))
+)
+
+(defrule theDiamondAge
+    (previousQuestion GrittyNoir,Neo-victorianOrSamurai?)
+    ?a <- (GrittyNoir,Neo-victorianOrSamurai? $?p Funny hats please $?k)
+    =>
+    (assert (recommendation "The Diamond Age"))
+    (retract ?a)
+    (assert (GrittyNoir,Neo-victorianOrSamurai? $?p $?k))
+)
+
+(defrule snowCrash
+    (previousQuestion GrittyNoir,Neo-victorianOrSamurai?)
+    ?a <- (GrittyNoir,Neo-victorianOrSamurai? $?p Samurai $?k)
+    =>
+    (assert (recommendation "Snow Crash"))
+    (retract ?a)
+    (assert (GrittyNoir,Neo-victorianOrSamurai? $?p $?k))
+)
+
+(defrule cryptonomicon
+    ?d <-(previousQuestion Cyberpunk?)
+    (Cyberpunk? Maybe: $?dop)
+    =>
+    (assert (recommendation "Cryptonomicon"))
     (retract ?d)
 )
 
@@ -229,12 +277,9 @@
 
 
 
-
-
-
-
-
 ;---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 
 (defrule areYouGoingTo
     ?d <-(previousQuestion WhereShouldIStart?)
@@ -270,6 +315,25 @@
     (retract ?y)
     (retract ?b)
     (retract ?d)
+)
+
+(defrule theLordOfTheRings
+    ?d <-(previousQuestion AreYouNewToTheFantasyGenre?)
+    (AreYouNewToTheFantasyGenre? Yes: $?dop)
+    =>
+    (assert (recommendation "The Lord Of The Rings"))
+    (assert (token next))
+    (retract ?d)
+)
+
+(defrule silmarillion
+    ?d <-(previousQuestion TheLordOfTheRings?)
+    (TheLordOfTheRings? No: $?dop)
+    ?t <- (token next)
+    =>
+    (assert (recommendation "The Silmarillion"))
+    (retract ?d)
+    (retract ?t)
 )
 
 (defrule whichCharacter
@@ -466,7 +530,7 @@
 
 (defrule lookingForAnOld
     ?d <-(previousQuestion DoTheWordsSwordAndSorceryHaveAPositiveConnotationForYou?)
-    (DoTheWordsSwordAndSorceryHaveAPositiveConnotationForYou? No: $?dop)
+    (DoTheWordsSwordAndSorceryHaveAPositiveConnotationForYou? No)
     ?y <- (question)
     ?b <- (answers)
     =>
@@ -543,6 +607,19 @@
     ?b <- (answers)
     =>
     (assert (question Who will save us? 2) (answers "The Seeker of Truth" "The one Power"))
+    (retract ?y)
+    (retract ?b)
+    (retract ?d)
+)
+
+(defrule nameOfTheWind
+    ?d <-(previousQuestion AreYouGoingToBeUpsetWhenYouDon'tFindHarryPotter?)
+    (AreYouGoingToBeUpsetWhenYouDon'tFindHarryPotter? Yes: $?dop)
+    ?y <- (question)
+    ?b <- (answers)
+    =>
+    (assert (recommendation "Name Of The Wind"))
+    (assert (token end))
     (retract ?y)
     (retract ?b)
     (retract ?d)

@@ -1,10 +1,11 @@
 import tkinter as tk
-from tkinter import messagebox, ttk
+from tkinter import messagebox, ttk, PhotoImage
 from ttkbootstrap import Style
 from data import quiz_data
 import clips
 import logging
 import os
+from PIL import Image
 
 # Weryfikacja czy jest dalsze poszukiwanie w momencie gdy jest już książka (sure do modern or classic), ilość odpowiedzi
 #
@@ -29,41 +30,63 @@ env.run()
 selected_choice = []
 question = ''
 numberOfAnswers=0
+recommendations=[]
+loopi=0
 
 def show_question():
-    """
-    	for fact in env.facts():
-            if fact.template.name=='prefered':
-		for elem in fact:
-                    y++
-        if y>1
-	    show_book()
-	else
-    """
-    global question
-    global numberOfAnswers
+    global question, numberOfAnswers, img, recommendations, loopi
     question = ''
     selected_choice.clear()
     questionShow = ''
+    y=0
 
-    for fact in env.facts():
-        if fact.template.name == 'question':
-            for i in range(len(fact)):
-                if fact[i]==fact[-1]:
-                    numberOfAnswers=fact[i]
-                else:
-                    question += fact[i].capitalize()
-                    questionShow += fact[i] + ' '
-    #                                                                                           podpis o ilości odpowiedzi mniejszy i pod ql
-    qs_label.config(text=questionShow)
-    noa_label.config(text='(NUMBER OF POSSIBLE ANSWERS: ' + str(numberOfAnswers) + ')')
+    if loopi==0:
+        for fact in env.facts():
+            if fact.template.name=='recommendation':
+                book = ['', '', '']
+                for i in range(len(fact)):
+                    y+=1
+                    book[i] = fact[i]
+                if book[2]!='':
+                    recommendations.append(book)
+    if y>1 or loopi>0:
+        questionShow=recommendations[loopi][0]+' - '+recommendations[loopi][1]
+        for word in recommendations[loopi][0].split():
+            question += word.capitalize()
+        question += '?'
+        selected_choice.append('No:')
+        img = PhotoImage(file=recommendations[loopi][2])
+        imggrid = ttk.Label(root, image=img)
+        imggrid.grid(row=9, column=0, columnspan=5, pady=5)
+        qs_label.config(text=questionShow)
+        noa_label.grid_forget()
+        iff=0
+        for fact in env.facts():
+            if fact.template.name == 'token' and fact[0]=='next':
+                iff=1
+        if len(recommendations)==1 and iff==0:
+            next_btn.config(state="disabled")
+            next_btn.config(text="END")
+    else:
+        for fact in env.facts():
+            if fact.template.name == 'question':
+                for i in range(len(fact)):
+                    if fact[i]==fact[-1]:
+                        numberOfAnswers=fact[i]
+                    else:
+                        question += fact[i].capitalize()
+                        questionShow += fact[i] + ' '
+
+        qs_label.config(text=questionShow)
+        noa_label.grid(row=1, column=1, columnspan=3, pady=20)
+        noa_label.config(text='(NUMBER OF POSSIBLE ANSWERS: ' + str(numberOfAnswers) + ')')
+        next_btn.config(state="disabled")
 
     choices=[]
     for fact in env.facts():
         if fact.template.name=='answers':
             for elem in fact:
                 choices.append(elem)
-
     i=0
     j=0
     while i < len(choice_btns):
@@ -82,8 +105,6 @@ def show_question():
         i+=1
         j+=1
 
-    next_btn.config(state="disabled")
-
 
 # sprawdzać czy wiele odpowiedzi / czy liść, pojawianie sie na koncu
 def check_answer(choice):
@@ -99,14 +120,31 @@ def check_answer(choice):
         numberOfSelectedButtons += button % 2
 
     print(numberOfSelectedButtons)
-    if numberOfSelectedButtons>0 and numberOfSelectedButtons<=numberOfAnswers:
-        next_btn.config(state="normal")
-    else:
+
+    iff=0
+    for elem in selected_choice:
+        if elem.startswith("No:"):
+            iff=1
+    if numberOfSelectedButtons==0 or numberOfSelectedButtons>numberOfAnswers or (iff==1 and numberOfSelectedButtons>1):
         next_btn.config(state="disabled")
+    else:
+        next_btn.config(state="normal")
 
 
 # Function to move to the next question
 def next_question():
+    global loopi
+
+    if len(recommendations)==1:
+        #result = env.eval('(find-fact ( recommendation "'+recommendations[0][0]+'" "'+recommendations[0][1]+'" "'+recommendations[0][2]+'") TRUE)')
+        for fact in env.facts():
+            if fact.template.name == 'recommendation':
+                fact.retract()
+        recommendations.pop()
+    elif len(recommendations)>1:
+        loopi+=1
+        loopi=loopi%len(recommendations)
+
     assertt='('+question+' '
     for elem in selected_choice:
         assertt+=elem+' '
@@ -139,7 +177,7 @@ def next_question():
 # Create the main window
 root = tk.Tk()
 root.title("Sci-fi and Fantasy books decision flowchart")
-root.geometry("1200x500")
+root.geometry("1200x600")
 root.grid_columnconfigure(0, weight=1, uniform="fred")
 root.grid_columnconfigure(1, weight=1, uniform="fred")
 root.grid_columnconfigure(2, weight=1, uniform="fred")
@@ -179,11 +217,9 @@ style.configure(
 )
 
 # Create the question label
-qs_label = ttk.Label(root, anchor="center", wraplength=500, padding=10)
+qs_label = ttk.Label(root, anchor="center", wraplength=500, padding=10, justify="center")
 qs_label.grid(row = 0, column = 0, columnspan = 5, pady = 0)
-
-noa_label = ttk.Label(root, anchor="center", wraplength=500, padding=10, style='Sublabel.TLabel')
-noa_label.grid(row = 1, column = 1, columnspan = 3, pady = 20)
+noa_label = ttk.Label(root, anchor="center", wraplength=500, padding=10, style='Sublabel.TLabel', justify="center")
 
 # Create the choice buttons
 choice_btns = []
