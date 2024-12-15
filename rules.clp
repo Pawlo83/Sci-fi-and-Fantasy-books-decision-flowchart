@@ -191,6 +191,51 @@
     (retract ?d)
 )
 
+(defrule aSpaceOdyssey
+    ?d <-(previousQuestion ReadyToBlastIntoSpace?)
+    (ReadyToBlastIntoSpace? Maybe: $?dop)
+    =>
+    (assert (recommendation "2001: A Space Odyssey"))
+    (assert (token next))
+    (retract ?d)
+)
+
+(defrule whatWouldYouLikeToSeeFrom
+    ?d <-(previousQuestion 2001:ASpaceOdyssey?)
+    (2001:ASpaceOdyssey? No: $?dop)
+    ?y <- (question)
+    ?b <- (answers)
+    =>
+    (assert (question What would you like to see from the Red Planet? 3) (answers "Vigetts" "Environmentalism" "Through the looking glass"))
+    (retract ?y)
+    (retract ?b)
+    (retract ?d)
+)
+
+(defrule theMartianChronicles
+    ?d <-(previousQuestion WhatWouldYouLikeToSeeFromTheRedPlanet?)
+    (WhatWouldYouLikeToSeeFromTheRedPlanet? "Vigetts")
+    =>
+    (assert (recommendation "The Martian Chronicles"))
+    (retract ?d)
+)
+
+(defrule theMarsTrilogy
+    ?d <-(previousQuestion WhatWouldYouLikeToSeeFromTheRedPlanet?)
+    (WhatWouldYouLikeToSeeFromTheRedPlanet? "Environmentalism")
+    =>
+    (assert (recommendation "The Mars Trilogy"))
+    (retract ?d)
+)
+
+(defrule theSpaceTrilogy
+    ?d <-(previousQuestion WhatWouldYouLikeToSeeFromTheRedPlanet?)
+    (WhatWouldYouLikeToSeeFromTheRedPlanet? "Environmentalism")
+    =>
+    (assert (recommendation "The Space Trilogy"))
+    (retract ?d)
+)
+
 (defrule dontYouMeanUnder
     ?d <-(previousQuestion ReadyToBlastIntoSpace?)
     (ReadyToBlastIntoSpace? No: $?dop)
