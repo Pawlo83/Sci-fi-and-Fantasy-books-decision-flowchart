@@ -34,12 +34,11 @@ recommendations=[]
 loopi=0
 
 def show_question():
-    global question, numberOfAnswers, img, recommendations, loopi
+    global question, numberOfAnswers, img, recommendations, loopi, imggrid
     question = ''
     selected_choice.clear()
     questionShow = ''
     y=0
-
     if loopi==0:
         for fact in env.facts():
             if fact.template.name=='recommendation':
@@ -56,7 +55,7 @@ def show_question():
         question += '?'
         selected_choice.append('No:')
         img = PhotoImage(file=recommendations[loopi][2])
-        imggrid = ttk.Label(root, image=img)
+        imggrid.config(image=img)
         imggrid.grid(row=9, column=0, columnspan=5, pady=5)
         qs_label.config(text=questionShow)
         noa_label.grid_forget()
@@ -68,6 +67,7 @@ def show_question():
             next_btn.config(state="disabled")
             next_btn.config(text="END")
     else:
+        imggrid.grid_forget()
         for fact in env.facts():
             if fact.template.name == 'question':
                 for i in range(len(fact)):
@@ -177,7 +177,7 @@ def next_question():
 # Create the main window
 root = tk.Tk()
 root.title("Sci-fi and Fantasy books decision flowchart")
-root.geometry("1200x600")
+root.geometry("1200x650")
 root.grid_columnconfigure(0, weight=1, uniform="fred")
 root.grid_columnconfigure(1, weight=1, uniform="fred")
 root.grid_columnconfigure(2, weight=1, uniform="fred")
@@ -220,6 +220,8 @@ style.configure(
 qs_label = ttk.Label(root, anchor="center", wraplength=500, padding=10, justify="center")
 qs_label.grid(row = 0, column = 0, columnspan = 5, pady = 0)
 noa_label = ttk.Label(root, anchor="center", wraplength=500, padding=10, style='Sublabel.TLabel', justify="center")
+
+imggrid = ttk.Label(root)
 
 # Create the choice buttons
 choice_btns = []

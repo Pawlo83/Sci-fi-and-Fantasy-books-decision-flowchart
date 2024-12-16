@@ -131,6 +131,51 @@
     (retract ?d)
 )
 
+(defrule warOfTheWorlds
+    (previousQuestion WhatKindOfAliensWouldYouLike?)
+    ?a <- (WhatKindOfAliensWouldYouLike? $?p Hostile $?k)
+    =>
+    (assert (recommendation "The War of the Worlds"))
+    (retract ?a)
+    (assert (WhatKindOfAliensWouldYouLike? $?p $?k))
+)
+
+(defrule rendezvous
+    (previousQuestion WhatKindOfAliensWouldYouLike?)
+    ?a <- (WhatKindOfAliensWouldYouLike? $?p Absent $?k)
+    =>
+    (assert (recommendation "Rendezvous with Rama"))
+    (retract ?a)
+    (assert (WhatKindOfAliensWouldYouLike? $?p $?k))
+)
+
+(defrule childhoodsEnd
+    (previousQuestion WhatKindOfAliensWouldYouLike?)
+    ?a <- (WhatKindOfAliensWouldYouLike? $?p Peaceful $?k)
+    =>
+    (assert (recommendation "Childhood's End"))
+    (retract ?a)
+    (assert (WhatKindOfAliensWouldYouLike? $?p $?k))
+)
+
+(defrule contact
+    (previousQuestion WhatKindOfAliensWouldYouLike?)
+    ?a <- (WhatKindOfAliensWouldYouLike? $?p Fatherly $?k)
+    =>
+    (assert (recommendation "Contact"))
+    (retract ?a)
+    (assert (WhatKindOfAliensWouldYouLike? $?p $?k))
+)
+
+(defrule theMoteInGodsEye
+    (previousQuestion WhatKindOfAliensWouldYouLike?)
+    ?a <- (WhatKindOfAliensWouldYouLike? $?p Prodigious Breeders $?k)
+    =>
+    (assert (recommendation "The Mote in God's Eye"))
+    (retract ?a)
+    (assert (WhatKindOfAliensWouldYouLike? $?p $?k))
+)
+
 (defrule aGalaxyFarFar
     ?d <-(previousQuestion WarBuff?)
     (WarBuff? Maybe: $?dop)
@@ -143,6 +188,14 @@
     (retract ?d)
 )
 
+(defrule theThrawn
+    ?d <-(previousQuestion AGalaxyFar,FarAway?)
+    (AGalaxyFar,FarAway? Yes: $?dop)
+    =>
+    (assert (recommendation "The Thrawn trilogy"))
+    (retract ?d)
+)
+
 (defrule areYouHavingALaugh
     ?d <-(previousQuestion AGalaxyFar,FarAway?)
     (AGalaxyFar,FarAway? No: $?dop)
@@ -152,6 +205,22 @@
     (assert (question Are you having a laugh? 1) (answers "Yes: Comedy is in my blood." "Maybe: I don't mind a few chuckles between explosions." "No: I do not have a sense of humor that I'm aware of."))
     (retract ?y)
     (retract ?b)
+    (retract ?d)
+)
+
+(defrule TheHitchhiker
+    ?d <-(previousQuestion AreYouHavingALaugh?)
+    (AreYouHavingALaugh? Yes: $?dop)
+    =>
+    (assert (recommendation "The Hitchhiker's Guide to the Galaxy"))
+    (retract ?d)
+)
+
+(defrule theCultureSeries
+    ?d <-(previousQuestion AreYouHavingALaugh?)
+    (AreYouHavingALaugh? Maybe: $?dop)
+    =>
+    (assert (recommendation "The Culture series"))
     (retract ?d)
 )
 
@@ -179,6 +248,72 @@
     (retract ?d)
 )
 
+(defrule foundationTrilogy
+    (previousQuestion WhatAreYouStudying?)
+    ?a <- (WhatAreYouStudying? $?p History $?k)
+    =>
+    (assert (recommendation "Foundation Trilogy"))
+    (retract ?a)
+    (assert (WhatAreYouStudying? $?p $?k))
+)
+
+(defrule ringworld
+    (previousQuestion WhatAreYouStudying?)
+    ?a <- (WhatAreYouStudying? $?p Engineering $?k)
+    =>
+    (assert (recommendation "Ringworld"))
+    (retract ?a)
+    (assert (WhatAreYouStudying? $?p $?k))
+)
+
+(defrule aFireUponTheDeep
+    (previousQuestion WhatAreYouStudying?)
+    ?a <- (WhatAreYouStudying? $?p Information Technology $?k)
+    =>
+    (assert (recommendation "A Fire Upon the Deep"))
+    (retract ?a)
+    (assert (WhatAreYouStudying? $?p $?k))
+)
+
+(defrule vorkosigan
+    ?d <-(previousQuestion KindOfProfessorialAren'tWe?)
+    (KindOfProfessorialAren'tWe? No: $?dop)
+    =>
+    (assert (recommendation "Vorkosigan Saga"))
+    (assert (token next))
+    (retract ?d)
+)
+
+(defrule shortStoriesItIs
+    ?d <-(previousQuestion VorkosiganSaga?)
+    (VorkosiganSaga? No: $?dop)
+    ?y <- (question)
+    ?b <- (answers)
+    =>
+    (assert (question Short stories it is then. Robots or Martians? 2) (answers "Robots" "Martians"))
+    (retract ?y)
+    (retract ?b)
+    (retract ?d)
+)
+
+(defrule iRobot
+    (previousQuestion ShortStoriesItIsThen.RobotsOrMartians?)
+    ?a <- (ShortStoriesItIsThen.RobotsOrMartians? $?p Robots $?k)
+    =>
+    (assert (recommendation "I, Robot"))
+    (retract ?a)
+    (assert (ShortStoriesItIsThen.RobotsOrMartians? $?p $?k))
+)
+
+(defrule theIllustratedMan
+    (previousQuestion ShortStoriesItIsThen.RobotsOrMartians?)
+    ?a <- (ShortStoriesItIsThen.RobotsOrMartians? $?p Martians $?k)
+    =>
+    (assert (recommendation "The Illustrated Man"))
+    (retract ?a)
+    (assert (ShortStoriesItIsThen.RobotsOrMartians? $?p $?k))
+)
+
 (defrule whoShallWeFight
     ?d <-(previousQuestion WarBuff?)
     (WarBuff? Yes: $?dop)
@@ -189,6 +324,60 @@
     (retract ?y)
     (retract ?b)
     (retract ?d)
+)
+
+(defrule starshipTroopers
+    (previousQuestion WhoShallWeFight?)
+    ?a <- (WhoShallWeFight? $?p Man vs. Bugs $?k)
+    =>
+    (assert (recommendation "Starship Troopers"))
+    (retract ?a)
+    (assert (WhoShallWeFight? $?p $?k))
+)
+
+(defrule endersGame
+    (previousQuestion WhoShallWeFight?)
+    ?a <- (WhoShallWeFight? $?p Man vs. Far Away Bugs $?k)
+    =>
+    (assert (recommendation "Ender's Game"))
+    (retract ?a)
+    (assert (WhoShallWeFight? $?p $?k))
+)
+
+(defrule thefForeverWar
+    (previousQuestion WhoShallWeFight?)
+    ?a <- (WhoShallWeFight? $?p Man vs. Alien $?k)
+    =>
+    (assert (recommendation "The Forever War"))
+    (retract ?a)
+    (assert (WhoShallWeFight? $?p $?k))
+)
+
+(defrule dune
+    (previousQuestion WhoShallWeFight?)
+    ?a <- (WhoShallWeFight? $?p Spiritual vs. Colonial $?k)
+    =>
+    (assert (recommendation "Dune"))
+    (retract ?a)
+    (assert (WhoShallWeFight? $?p $?k))
+)
+
+(defrule theMoonIs
+    (previousQuestion WhoShallWeFight?)
+    ?a <- (WhoShallWeFight? $?p Human vs. Human $?k)
+    =>
+    (assert (recommendation "The Moon Is a Harsh Mistress"))
+    (retract ?a)
+    (assert (WhoShallWeFight? $?p $?k))
+)
+
+(defrule oldMansWar
+    (previousQuestion WhoShallWeFight?)
+    ?a <- (WhoShallWeFight? $?p Everyone $?k)
+    =>
+    (assert (recommendation "Old Man's War"))
+    (retract ?a)
+    (assert (WhoShallWeFight? $?p $?k))
 )
 
 (defrule aSpaceOdyssey
@@ -213,27 +402,30 @@
 )
 
 (defrule theMartianChronicles
-    ?d <-(previousQuestion WhatWouldYouLikeToSeeFromTheRedPlanet?)
-    (WhatWouldYouLikeToSeeFromTheRedPlanet? "Vigetts")
+    (previousQuestion WhatWouldYouLikeToSeeFromTheRedPlanet?)
+    ?a <- (WhatWouldYouLikeToSeeFromTheRedPlanet? $?p Vigetts $?k)
     =>
     (assert (recommendation "The Martian Chronicles"))
-    (retract ?d)
+    (retract ?a)
+    (assert (WhatWouldYouLikeToSeeFromTheRedPlanet? $?p $?k))
 )
 
 (defrule theMarsTrilogy
-    ?d <-(previousQuestion WhatWouldYouLikeToSeeFromTheRedPlanet?)
-    (WhatWouldYouLikeToSeeFromTheRedPlanet? "Environmentalism")
+    (previousQuestion WhatWouldYouLikeToSeeFromTheRedPlanet?)
+    ?a <- (WhatWouldYouLikeToSeeFromTheRedPlanet? $?p Environmentalism $?k)
     =>
     (assert (recommendation "The Mars Trilogy"))
-    (retract ?d)
+    (retract ?a)
+    (assert (WhatWouldYouLikeToSeeFromTheRedPlanet? $?p $?k))
 )
 
 (defrule theSpaceTrilogy
-    ?d <-(previousQuestion WhatWouldYouLikeToSeeFromTheRedPlanet?)
-    (WhatWouldYouLikeToSeeFromTheRedPlanet? "Environmentalism")
+    (previousQuestion WhatWouldYouLikeToSeeFromTheRedPlanet?)
+    ?a <- (WhatWouldYouLikeToSeeFromTheRedPlanet? $?p Through the looking glass $?k)
     =>
     (assert (recommendation "The Space Trilogy"))
-    (retract ?d)
+    (retract ?a)
+    (assert (WhatWouldYouLikeToSeeFromTheRedPlanet? $?p $?k))
 )
 
 (defrule dontYouMeanUnder
@@ -260,6 +452,24 @@
     (retract ?d)
 )
 
+(defrule journeyToTheCenter
+    (previousQuestion WetOrDry?)
+    ?a <- (WetOrDry? $?p Underground $?k)
+    =>
+    (assert (recommendation "Journey to the Center of the Earth"))
+    (retract ?a)
+    (assert (WetOrDry? $?p $?k))
+)
+
+(defrule twentyThousand
+    (previousQuestion WetOrDry?)
+    ?a <- (WetOrDry? $?p Under water $?k)
+    =>
+    (assert (recommendation "Twenty Thousand Leagues Under the Sea"))
+    (retract ?a)
+    (assert (WetOrDry? $?p $?k))
+)
+
 (defrule politicsReligion
     ?d <-(previousQuestion Don'tYouMeanUnderTheGround?)
     (Don'tYouMeanUnderTheGround? No: $?dop)
@@ -269,6 +479,14 @@
     (assert (question Politics, Religion, or Philosophy? 1) (answers "Read my lips..." "Tell me the good word." "I think, therefore I am." "No: These things aren't polite to talk about in company. Don't you guys write about time travel or something?"))
     (retract ?y)
     (retract ?b)
+    (retract ?d)
+)
+
+(defrule doAndroids
+    ?d <- (previousQuestion Politics,Religion,OrPhilosophy?)
+    (Politics,Religion,OrPhilosophy? I think, therefore I am.)
+    =>
+    (assert (recommendation "Do Androids Dream of Electric Sheep?"))
     (retract ?d)
 )
 
@@ -284,6 +502,24 @@
     (retract ?d)
 )
 
+(defrule theLeftHand
+    (previousQuestion What'sYourInterest?)
+    ?a <- (What'sYourInterest? $?p Feminism $?k)
+    =>
+    (assert (recommendation "The Left Hand of Darkness"))
+    (retract ?a)
+    (assert (What'sYourInterest? $?p $?k))
+)
+
+(defrule theDispossessed
+    (previousQuestion What'sYourInterest?)
+    ?a <- (What'sYourInterest? $?p Communism $?k)
+    =>
+    (assert (recommendation "The Dispossessed"))
+    (retract ?a)
+    (assert (What'sYourInterest? $?p $?k))
+)
+
 (defrule pickYourPoison
     ?d <-(previousQuestion Politics,Religion,OrPhilosophy?)
     (Politics,Religion,OrPhilosophy? Tell me the good word.)
@@ -296,16 +532,52 @@
     (retract ?d)
 )
 
+(defrule aCanticle
+    (previousQuestion PickYourPoison?)
+    ?a <- (PickYourPoison? $?p Catholicism $?k)
+    =>
+    (assert (recommendation "A Canticle for Leibowitz"))
+    (retract ?a)
+    (assert (PickYourPoison? $?p $?k))
+)
+
+(defrule strangerInAStrange
+    (previousQuestion PickYourPoison?)
+    ?a <- (PickYourPoison? $?p Humanism $?k)
+    =>
+    (assert (recommendation "Stranger in a Strange Land"))
+    (retract ?a)
+    (assert (PickYourPoison? $?p $?k))
+)
+
 (defrule sureDoModern
     ?d <-(previousQuestion Politics,Religion,OrPhilosophy?)
     (Politics,Religion,OrPhilosophy? No: $?dop)
     ?y <- (question)
     ?b <- (answers)
     =>
-    (assert (question Sure do. Modern or classic? 2) (answers "Modern" "Classic" "No: All right, all right... I'm a bit out of my comfort zone. Got a nice mystery or a thriller?"))
+    (assert (question Sure do. Modern or classic? 2) (answers "Modern" "Classic" "No: All right, all right... I'm a bit out of my comfort zone."))
     (retract ?y)
     (retract ?b)
     (retract ?d)
+)
+
+(defrule doomsdayBook
+    (previousQuestion SureDo.ModernOrClassic?)
+    ?a <- (SureDo.ModernOrClassic? $?p Modern $?k)
+    =>
+    (assert (recommendation "Domesday Book"))
+    (retract ?a)
+    (assert (SureDo.ModernOrClassic? $?p $?k))
+)
+
+(defrule theTimeMachine
+    (previousQuestion SureDo.ModernOrClassic?)
+    ?a <- (SureDo.ModernOrClassic? $?p Classic $?k)
+    =>
+    (assert (recommendation "The Time Machine"))
+    (retract ?a)
+    (assert (SureDo.ModernOrClassic? $?p $?k))
 )
 
 (defrule mysteryOrThriller
@@ -314,13 +586,29 @@
     ?y <- (question)
     ?b <- (answers)
     =>
-    (assert (question Mystery or thriller? 2) (answers "Mystery" "Thriller"))
+    (assert (question Got a nice mystery or a thriller? 2) (answers "Mystery" "Thriller"))
     (retract ?y)
     (retract ?b)
     (retract ?d)
 )
 
+(defrule theCavesOfSteel
+    (previousQuestion GotANiceMysteryOrAThriller?)
+    ?a <- (GotANiceMysteryOrAThriller? $?p Mystery $?k)
+    =>
+    (assert (recommendation "The Caves of Steel"))
+    (retract ?a)
+    (assert (GotANiceMysteryOrAThriller? $?p $?k))
+)
 
+(defrule lucifersHammer
+    (previousQuestion GotANiceMysteryOrAThriller?)
+    ?a <- (GotANiceMysteryOrAThriller? $?p Thriller $?k)
+    =>
+    (assert (recommendation "Lucifer's Hammer"))
+    (retract ?a)
+    (assert (GotANiceMysteryOrAThriller? $?p $?k))
+)
 
 ;---------------------------------------------------------------------------------------------------------------------------------------------------------------
 ;---------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -497,8 +785,6 @@
     (assert (recommendation "The Dark Tower"))
     (retract ?d)
 )
-
-
 
 (defrule animalsMore
     ?d <-(previousQuestion FanOfWesterns?)
