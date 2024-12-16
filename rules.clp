@@ -419,11 +419,11 @@
     (assert (WhichCharacterDoYouLikeBest? $?p $?k))
 )
 
-(defrule theMistOfAvalon
+(defrule theMistsOfAvalon
     (previousQuestion WhichCharacterDoYouLikeBest?)
     ?a <- (WhichCharacterDoYouLikeBest? $?p Morgan Le Faye $?k)
     =>
-    (assert (recommendation "The Mist of Avalon"))
+    (assert (recommendation "The Mists of Avalon"))
     (retract ?a)
     (assert (WhichCharacterDoYouLikeBest? $?p $?k))
 )
@@ -588,7 +588,7 @@
     (previousQuestion RomanceOrWarringMagicians?)
     ?a <- (RomanceOrWarringMagicians? $?p Magicians $?k)
     =>
-    (assert (recommendation "Jonathan Strange & Mr.Norrell"))
+    (assert (recommendation "Jonathan Strange and Mr. Norrell"))
     (retract ?a)
     (assert (RomanceOrWarringMagicians? $?p $?k))
 )
@@ -708,7 +708,7 @@
     (assert (TakeTheHighRoadOrTheLowRoad? $?p $?k))
 )
 
-(defrule theSwordOfShannaraTrilogy
+(defrule theWayOfKings
     (previousQuestion TakeTheHighRoadOrTheLowRoad?)
     ?a <- (TakeTheHighRoadOrTheLowRoad? $?p High Fantasy $?k)
     =>
@@ -872,6 +872,15 @@
     (retract ?d)
 )
 
+(defrule theCodexTheBelgariad
+    (previousQuestion EnjoyStoriesAboutOrphanedFarmBoys?)
+    ?a <- (EnjoyStoriesAboutOrphanedFarmBoys? No)
+    =>
+    (assert (recommendation "The Codex Alera"))
+    (assert (recommendation "The Belgariad"))
+    (retract ?a)
+)
+
 (defrule enjoyQuests
     ?d <-(previousQuestion So,FiveOrSixBooksEnoughForYou?)
     (So,FiveOrSixBooksEnoughForYou? No: $?odp)
@@ -920,7 +929,7 @@
     ?y <- (question)
     ?b <- (answers)
     =>
-    (assert (question Who will save us? 2) (answers "The Seeker of Truth" "The one Power"))
+    (assert (question Who will save us? 2) (answers "The Seeker of Truth" "The One Power"))
     (retract ?y)
     (retract ?b)
     (retract ?d)

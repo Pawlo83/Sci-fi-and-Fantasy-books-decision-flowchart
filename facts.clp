@@ -54,8 +54,8 @@
 
 
 
-        ;Left
-    (book (title "Name Of The Wind") (author "Patrick Rothfuss") (image-path "books/LeftSide/NameOfTheWind.png"))
+    ;Left
+    (book (title "Name of The Wind") (author "Patrick Rothfuss") (image-path "books/LeftSide/NameOfTheWind.png"))
     (book (title "The Lord Of The Rings") (author "J.R.R Tolkien") (image-path "books/LeftSide/TheLordOfTheRings.png"))
     (book (title "The Silmarillion") (author "J.R.R Tolkien") (image-path "books/LeftSide/TheSilmarillion.png"))
     (book (title "Wicked") (author "Gregory Maquire") (image-path "books/LeftSide/Wicked.png"))
@@ -69,7 +69,7 @@
     (book (title "Kushiel's Legacy Series") (author "Jacqueline Carey") (image-path "books/LeftSide/KushielsLegacy.png"))
     (book (title "Stardust") (author "Neil Gaiman") (image-path "books/LeftSide/Stardust.png"))
     (book (title "The Princess Bride") (author "William Goldman") (image-path "books/LeftSide/ThePrincessBride.png"))
-    (book (title "Jonathan Strange & Mr.Norrell") (author "Susanne Clarke") (image-path "books/LeftSide/JonatanStrange.png"))
+    (book (title "Jonathan Strange and Mr. Norrell") (author "Susanne Clarke") (image-path "books/LeftSide/JonatanStrange.png"))
     (book (title "Something Wicked This Way Comes") (author "Ray Bradbury") (image-path "books/LeftSide/SomethingWickedThisWayComes.png"))
     (book (title "American Gods") (author "Neil Gaiman") (image-path "books/LeftSide/AmericanGods.png"))
     (book (title "The Legend of Drizzt") (author "R.A. Salvatore") (image-path "books/LeftSide/TheLegendOfDrizzt.png"))
