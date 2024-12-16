@@ -323,8 +323,8 @@
 
 
 ;---------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
+;---------------------------------------------------------------------------------------------------------------------------------------------------------------
+;---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule areYouGoingTo
     ?d <-(previousQuestion WhereShouldIStart?)
@@ -347,6 +347,14 @@
     (assert (question Are you new to the fantasy genre? 1) (answers "Yes: I am as yet unfamiliar with your tropes. Do your worst." "Maybe: Does the wizard of Oz count?" "No: I'm what you call, experienced"))
     (retract ?y)
     (retract ?b)
+    (retract ?d)
+)
+
+(defrule wicked
+    ?d <-(previousQuestion AreYouNewToTheFantasyGenre?)
+    (AreYouNewToTheFantasyGenre? Maybe: $?dop)
+    =>
+    (assert (recommendation "Wicked"))
     (retract ?d)
 )
 
@@ -393,6 +401,33 @@
     (retract ?d)
 )
 
+(defrule theOnceAndFutureKing
+    (previousQuestion WhichCharacterDoYouLikeBest?)
+    ?a <- (WhichCharacterDoYouLikeBest? $?p Arthur $?k)
+    =>
+    (assert (recommendation "The Once and Future King"))
+    (retract ?a)
+    (assert (WhichCharacterDoYouLikeBest? $?p $?k))
+)
+
+(defrule theCrystalCave
+    (previousQuestion WhichCharacterDoYouLikeBest?)
+    ?a <- (WhichCharacterDoYouLikeBest? $?p Merlin $?k)
+    =>
+    (assert (recommendation "The Crystal Cave"))
+    (retract ?a)
+    (assert (WhichCharacterDoYouLikeBest? $?p $?k))
+)
+
+(defrule theMistOfAvalon
+    (previousQuestion WhichCharacterDoYouLikeBest?)
+    ?a <- (WhichCharacterDoYouLikeBest? $?p Morgan Le Faye $?k)
+    =>
+    (assert (recommendation "The Mist of Avalon"))
+    (retract ?a)
+    (assert (WhichCharacterDoYouLikeBest? $?p $?k))
+)
+
 (defrule lookingForModern
     ?d <-(previousQuestion LikeTheArthurianLegend?)
     (LikeTheArthurianLegend? No)
@@ -402,6 +437,14 @@
     (assert (question Looking for modern-day settings? 1) (answers "Yes: I'm a city-person" "Maybe: I'm partial to small towns" "No: Let's find another world, this one's depressing"))
     (retract ?y)
     (retract ?b)
+    (retract ?d)
+)
+
+(defrule somethingWicked
+    ?d <-(previousQuestion LookingForModern-daySettings?)
+    (LookingForModern-daySettings? Maybe: $?dop)
+    =>
+    (assert (recommendation "Something Wicked This Way Comes"))
     (retract ?d)
 )
 
@@ -417,6 +460,24 @@
     (retract ?d)
 )
 
+(defrule neverwhere
+    (previousQuestion GodsOrPeopleUnderTheStreets?)
+    ?a <- (GodsOrPeopleUnderTheStreets? $?p A world beneath the city $?k)
+    =>
+    (assert (recommendation "Neverwhere"))
+    (retract ?a)
+    (assert (GodsOrPeopleUnderTheStreets? $?p $?k))
+)
+
+(defrule americanGods
+    (previousQuestion GodsOrPeopleUnderTheStreets?)
+    ?a <- (GodsOrPeopleUnderTheStreets? $?p Modern Mythology $?k)
+    =>
+    (assert (recommendation "American Gods"))
+    (retract ?a)
+    (assert (GodsOrPeopleUnderTheStreets? $?p $?k))
+)
+
 (defrule fanOfWesterns
     ?d <-(previousQuestion LookingForModern-daySettings?)
     (LookingForModern-daySettings? No: $?dop)
@@ -428,6 +489,16 @@
     (retract ?b)
     (retract ?d)
 )
+
+(defrule theDarkTower
+    ?d <-(previousQuestion FanOfWesterns?)
+    (FanOfWesterns? Yes: $?dop)
+    =>
+    (assert (recommendation "The Dark Tower"))
+    (retract ?d)
+)
+
+
 
 (defrule animalsMore
     ?d <-(previousQuestion FanOfWesterns?)
@@ -451,6 +522,33 @@
     (retract ?y)
     (retract ?b)
     (retract ?d)
+)
+
+(defrule theLastUnicorn
+    (previousQuestion What'sYourIdealPet?)
+    ?a <- (What'sYourIdealPet? $?p Unicorn $?k)
+    =>
+    (assert (recommendation "The Last Unicorn"))
+    (retract ?a)
+    (assert (What'sYourIdealPet? $?p $?k))
+)
+
+(defrule watershipDown
+    (previousQuestion What'sYourIdealPet?)
+    ?a <- (What'sYourIdealPet? $?p Bunny $?k)
+    =>
+    (assert (recommendation "Watership Down"))
+    (retract ?a)
+    (assert (What'sYourIdealPet? $?p $?k))
+)
+
+(defrule dragonflight
+    (previousQuestion What'sYourIdealPet?)
+    ?a <- (What'sYourIdealPet? $?p Dragon $?k)
+    =>
+    (assert (recommendation "Dragonflight"))
+    (retract ?a)
+    (assert (What'sYourIdealPet? $?p $?k))
 )
 
 (defrule howAboutSomeAltermate
@@ -477,6 +575,24 @@
     (retract ?d)
 )
 
+(defrule kushielsLegacy
+    (previousQuestion RomanceOrWarringMagicians?)
+    ?a <- (RomanceOrWarringMagicians? $?p Romance $?k)
+    =>
+    (assert (recommendation "Kushiel's Legacy Series"))
+    (retract ?a)
+    (assert (RomanceOrWarringMagicians? $?p $?k))
+)
+
+(defrule jonathanStrange
+    (previousQuestion RomanceOrWarringMagicians?)
+    ?a <- (RomanceOrWarringMagicians? $?p Magicians $?k)
+    =>
+    (assert (recommendation "Jonathan Strange & Mr.Norrell"))
+    (retract ?a)
+    (assert (RomanceOrWarringMagicians? $?p $?k))
+)
+
 (defrule readyToDive
     ?d <-(previousQuestion HowAboutSomeAltermateHistory?)
     (HowAboutSomeAltermateHistory? No: $?dop)
@@ -488,6 +604,7 @@
     (retract ?b)
     (retract ?d)
 )
+
 
 (defrule whatsYourPleasure
     ?d <-(previousQuestion ReadyToDiveIntoASeries?)
@@ -501,6 +618,33 @@
     (retract ?d)
 )
 
+(defrule goingPostal
+    (previousQuestion What'sYourPleasure?)
+    ?a <- (What'sYourPleasure? $?p Bureaucratic Satire $?k)
+    =>
+    (assert (recommendation "Going Postal"))
+    (retract ?a)
+    (assert (What'sYourPleasure? $?p $?k))
+)
+
+(defrule smallGods
+    (previousQuestion What'sYourPleasure?)
+    ?a <- (What'sYourPleasure? $?p Religious Satire $?k)
+    =>
+    (assert (recommendation "Small Gods"))
+    (retract ?a)
+    (assert (What'sYourPleasure? $?p $?k))
+)
+
+(defrule xanthSeries
+    (previousQuestion What'sYourPleasure?)
+    ?a <- (What'sYourPleasure? $?p Fun with Puns $?k)
+    =>
+    (assert (recommendation "Xanth Series"))
+    (retract ?a)
+    (assert (What'sYourPleasure? $?p $?k))
+)
+
 (defrule withPirates
     ?d <-(previousQuestion ReadyToDiveIntoASeries?)
     (ReadyToDiveIntoASeries? No: $?dop)
@@ -511,6 +655,24 @@
     (retract ?y)
     (retract ?b)
     (retract ?d)
+)
+
+(defrule stardust
+    (previousQuestion WithPiratesOrWithout?)
+    ?a <- (WithPiratesOrWithout? $?p No pirates here. No siree, Bob. No pirates at all $?k)
+    =>
+    (assert (recommendation "Stardust"))
+    (retract ?a)
+    (assert (WithPiratesOrWithout? $?p $?k))
+)
+
+(defrule thePrincessBride
+    (previousQuestion WithPiratesOrWithout?)
+    ?a <- (WithPiratesOrWithout? $?p Pirates Please $?k)
+    =>
+    (assert (recommendation "The Princess Bride"))
+    (retract ?a)
+    (assert (WithPiratesOrWithout? $?p $?k))
 )
 
 (defrule doesTheSeriesHave
@@ -537,6 +699,24 @@
     (retract ?d)
 )
 
+(defrule aSongOfIceAndFire
+    (previousQuestion TakeTheHighRoadOrTheLowRoad?)
+    ?a <- (TakeTheHighRoadOrTheLowRoad? $?p Low Fantasy $?k)
+    =>
+    (assert (recommendation "A Song of Ice and Fire"))
+    (retract ?a)
+    (assert (TakeTheHighRoadOrTheLowRoad? $?p $?k))
+)
+
+(defrule theSwordOfShannaraTrilogy
+    (previousQuestion TakeTheHighRoadOrTheLowRoad?)
+    ?a <- (TakeTheHighRoadOrTheLowRoad? $?p High Fantasy $?k)
+    =>
+    (assert (recommendation "The Way of Kings"))
+    (retract ?a)
+    (assert (TakeTheHighRoadOrTheLowRoad? $?p $?k))
+)
+
 (defrule doTheWords
     ?d <-(previousQuestion DoesTheSeriesHaveToBeFinished?)
     (DoesTheSeriesHaveToBeFinished? Yes)
@@ -561,6 +741,14 @@
     (retract ?d)
 )
 
+(defrule theLegendOfDrizzt
+    ?d <-(previousQuestion Roleplayer?)
+    (Roleplayer? Yes)
+    =>
+    (assert (recommendation "The Legend of Drizzt"))
+    (retract ?d)
+)
+
 (defrule moreWizard
     ?d <-(previousQuestion Roleplayer?)
     (Roleplayer? No)
@@ -571,6 +759,24 @@
     (retract ?y)
     (retract ?b)
     (retract ?d)
+)
+
+(defrule chroniclesOfConan
+    (previousQuestion MoreWizardsOrBarbarians?)
+    ?a <- (MoreWizardsOrBarbarians? $?p Barbarians $?k)
+    =>
+    (assert (recommendation "The Chronicles of Conan the Barbarian"))
+    (retract ?a)
+    (assert (MoreWizardsOrBarbarians? $?p $?k))
+)
+
+(defrule theElricSaga
+    (previousQuestion MoreWizardsOrBarbarians?)
+    ?a <- (MoreWizardsOrBarbarians? $?p Wizards $?k)
+    =>
+    (assert (recommendation "The Elric Saga"))
+    (retract ?a)
+    (assert (MoreWizardsOrBarbarians? $?p $?k))
 )
 
 (defrule lookingForAnOld
@@ -585,6 +791,15 @@
     (retract ?d)
 )
 
+
+(defrule theChroniclesOfThomas
+    ?d <-(previousQuestion LookingForAnOld-fashionedTrilogy?)
+    (LookingForAnOld-fashionedTrilogy? Maybe: $?dop)
+    =>
+    (assert (recommendation "The Chronicles of Thomas Covenant, The Unbeliever"))
+    (retract ?d)
+)
+
 (defrule whatShallWeRead
     ?d <-(previousQuestion LookingForAnOld-fashionedTrilogy?)
     (LookingForAnOld-fashionedTrilogy? Yes: $?dop)
@@ -595,6 +810,42 @@
     (retract ?y)
     (retract ?b)
     (retract ?d)
+)
+
+(defrule theMistbornTrilogy
+    (previousQuestion WhatShallWeReadAbout?)
+    ?a <- (WhatShallWeReadAbout? $?p Thieves $?k)
+    =>
+    (assert (recommendation "The Mistborn Trilogy"))
+    (retract ?a)
+    (assert (WhatShallWeReadAbout? $?p $?k))
+)
+
+(defrule theSwordOfShannaraTrilogy
+    (previousQuestion WhatShallWeReadAbout?)
+    ?a <- (WhatShallWeReadAbout? $?p MacGuffins $?k)
+    =>
+    (assert (recommendation "The Sword of Shannara Trilogy"))
+    (retract ?a)
+    (assert (WhatShallWeReadAbout? $?p $?k))
+)
+
+(defrule theFarseerTrilogy
+    (previousQuestion WhatShallWeReadAbout?)
+    ?a <- (WhatShallWeReadAbout? $?p Assassins $?k)
+    =>
+    (assert (recommendation "The Farseer Trilogy"))
+    (retract ?a)
+    (assert (WhatShallWeReadAbout? $?p $?k))
+)
+
+(defrule theRiftwarSaga
+    (previousQuestion WhatShallWeReadAbout?)
+    ?a <- (WhatShallWeReadAbout? $?p Magicians $?k)
+    =>
+    (assert (recommendation "The Riftwar Saga"))
+    (retract ?a)
+    (assert (WhatShallWeReadAbout? $?p $?k))
 )
 
 (defrule soFiveOrSix
@@ -645,6 +896,24 @@
     (retract ?d)
 )
 
+(defrule theChoniclesOfAmber
+    (previousQuestion ChooseWisely,ThisIsTheEnd?)
+    ?a <- (ChooseWisely,ThisIsTheEnd? $?p Earth is the shadows $?k)
+    =>
+    (assert (recommendation "The Chronicles of Amber"))
+    (retract ?a)
+    (assert (ChooseWisely,ThisIsTheEnd? $?p $?k))
+)
+
+(defrule theMalazanBook
+    (previousQuestion ChooseWisely,ThisIsTheEnd?)
+    ?a <- (ChooseWisely,ThisIsTheEnd? $?p Weaving Timeline $?k)
+    =>
+    (assert (recommendation "The Malazan Book of the Fallen Series"))
+    (retract ?a)
+    (assert (ChooseWisely,ThisIsTheEnd? $?p $?k))
+)
+
 (defrule whoWillSaveUs
     ?d <-(previousQuestion EnjoyQuestsToPreventGreatEvilFromConqueringTheWorld?)
     (EnjoyQuestsToPreventGreatEvilFromConqueringTheWorld? Yes: $?dop)
@@ -657,15 +926,34 @@
     (retract ?d)
 )
 
+(defrule theSwordOfTruth
+    (previousQuestion WhoWillSaveUs?)
+    ?a <- (WhoWillSaveUs? $?p The Seeker of Truth $?k)
+    =>
+    (assert (recommendation "The Sword of Truth Series"))
+    (retract ?a)
+    (assert (WhoWillSaveUs? $?p $?k))
+)
+
+(defrule theWheelOfTime
+    (previousQuestion WhoWillSaveUs?)
+    ?a <- (WhoWillSaveUs? $?p The one Power $?k)
+    =>
+    (assert (recommendation "The Wheel of Time"))
+    (retract ?a)
+    (assert (WhoWillSaveUs? $?p $?k))
+)
+
 (defrule nameOfTheWind
     ?d <-(previousQuestion AreYouGoingToBeUpsetWhenYouDon'tFindHarryPotter?)
     (AreYouGoingToBeUpsetWhenYouDon'tFindHarryPotter? Yes: $?dop)
-    ?y <- (question)
-    ?b <- (answers)
     =>
-    (assert (recommendation "Name Of The Wind"))
-    (assert (token end))
-    (retract ?y)
-    (retract ?b)
+    (assert (recommendation "Name of The Wind"))
     (retract ?d)
 )
+
+;---------------------------------------------------------------------------------------------------------------------------------------------------------------
+;---------------------------------------------------------------------------------------------------------------------------------------------------------------
+;----------------------------------------------------------------------ENJOY-STORIES----------------------------------------------------------------------------
+;---------------------------------------------------------------------------------------------------------------------------------------------------------------
+;---------------------------------------------------------------------------------------------------------------------------------------------------------------
