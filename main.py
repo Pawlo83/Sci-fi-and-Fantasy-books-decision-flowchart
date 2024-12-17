@@ -6,37 +6,45 @@ import clips
 import logging
 import os
 
+
+# Global variables
 selected_choice = []
 question = ''
 numberOfAnswers = 0
 recommendations = []
-loopi = 0
+loopIndex = 0
 
 # Clips setup
-env = clips.Environment()
-router = clips.LoggingRouter()
-env.add_router(router)
-env.load('facts.clp')
-env.load('rules.clp')
-env.reset()
-print("Facts:")
-for fact in env.facts():
-    print(fact)
-print("Rules:")
-for rule in env.rules():
-    print(rule)
-env.run()
+def setup_clips():
+    env = clips.Environment()
+    router = clips.LoggingRouter()
+    env.add_router(router)
+    env.load('facts.clp')
+    env.load('rules.clp')
+    env.reset()
 
+    print("Facts:")
+    for fact in env.facts():
+        print(fact)
+
+    print("Rules:")
+    for rule in env.rules():
+        print(rule)
+
+    env.run()
+    return env
+
+env = setup_clips()
 
 def show_question():
-    global question, numberOfAnswers, img, recommendations, loopi, img_label
+    global question, numberOfAnswers, img, recommendations, loopIndex, img_label
     question = ''
     questionShow = ''
     selected_choice.clear()
     recommendationLen = 0
 
     # Check for recommendations if no recommendation has been shown
-    if loopi == 0:
+    if loopIndex == 0:
         for fact in env.facts():
             if fact.template.name == 'recommendation':
                 book = ['', '', '']
@@ -47,14 +55,14 @@ def show_question():
                     recommendations.append(book)
 
     # Recommendations exist or it is not the first recommendation shown
-    if recommendationLen > 1 or loopi > 0:
-        questionShow = recommendations[loopi][0] + ' - ' + recommendations[loopi][1]
-        for word in recommendations[loopi][0].split():
+    if recommendationLen > 1 or loopIndex > 0:
+        questionShow = recommendations[loopIndex][0] + ' - ' + recommendations[loopIndex][1]
+        for word in recommendations[loopIndex][0].split():
             question += word.capitalize()
         question += '?'
         selected_choice.append('No:')
 
-        img = PhotoImage(file=recommendations[loopi][2])
+        img = PhotoImage(file=recommendations[loopIndex][2])
         img_label.config(image=img)
         img_label.grid(row=9, column=0, columnspan=5, pady=5)
         qs_label.config(text=questionShow)
@@ -138,7 +146,7 @@ def check_answer(choice):
 
 
 def next_question():
-    global loopi
+    global loopIndex
 
     # Changing "next" button functionality based on number of recommendations
     if len(recommendations) == 1:
@@ -147,8 +155,8 @@ def next_question():
                 fact.retract()
         recommendations.pop()
     elif len(recommendations) > 1:
-        loopi += 1
-        loopi = loopi % len(recommendations)
+        loopIndex += 1
+        loopIndex = loopIndex % len(recommendations)
 
     # Making asserts to clips
     assertString = '(' + question + ' '
