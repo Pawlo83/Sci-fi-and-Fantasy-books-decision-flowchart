@@ -186,11 +186,8 @@ def next_question():
 root = tk.Tk()
 root.title("Sci-fi and Fantasy books decision flowchart")
 root.geometry("1200x650")
-root.grid_columnconfigure(0, weight=1, uniform="fred")
-root.grid_columnconfigure(1, weight=1, uniform="fred")
-root.grid_columnconfigure(2, weight=1, uniform="fred")
-root.grid_columnconfigure(3, weight=1, uniform="fred")
-root.grid_columnconfigure(4, weight=1, uniform="fred")
+for col in range(5):
+    root.grid_columnconfigure(col, weight=1, uniform="fred")
 
 style = Style(theme="flatly")
 style.map('TButton', background=[('active', 'red')])
