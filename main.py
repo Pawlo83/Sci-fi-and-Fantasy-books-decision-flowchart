@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox, ttk, PhotoImage
 from ttkbootstrap import Style
-from data import quiz_data
 import clips
 import logging
 import os
