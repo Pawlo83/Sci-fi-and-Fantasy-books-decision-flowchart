@@ -1,10 +1,7 @@
 import tkinter as tk
-from tkinter import messagebox, ttk, PhotoImage
+from tkinter import ttk, PhotoImage
 from ttkbootstrap import Style
 import clips
-import logging
-import os
-
 
 # Global variables
 selected_choice = []
